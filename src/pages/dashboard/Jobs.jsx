@@ -112,7 +112,7 @@ export default function Jobs() {
             </div>
 
             <div className="flex justify-between items-center">
-              
+              <a
                 href={`/status/${job.id}`}
                 target="_blank"
                 rel="noreferrer"
