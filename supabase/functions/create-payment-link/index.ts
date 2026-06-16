@@ -54,8 +54,6 @@ Deno.serve(async (req) => {
   try {
     const { bookingId, amount, customerEmail, customerName, serviceName, shopName } = await req.json()
 
-    console.log("Received:", { bookingId, amount, customerEmail, customerName, serviceName, shopName })
-
     const paymentLink = await stripe.paymentLinks.create({
       line_items: [
         {

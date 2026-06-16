@@ -49,9 +49,6 @@ export default function Requests() {
   try {
     const { data: { session } } = await supabase.auth.getSession()
 
-    console.log("Booking object:", booking)
-    console.log("Customer name:", booking.customer_name)
-
     const response = await fetch(
       `https://kryjxqmasidpnvtwppgf.supabase.co/functions/v1/create-payment-link`,
       {
