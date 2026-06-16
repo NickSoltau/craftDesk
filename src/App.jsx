@@ -5,8 +5,11 @@ import BookingPage from "./pages/BookingPage"
 import Login from "./pages/Login"
 import Requests from "./pages/dashboard/Requests"
 import StatusPage from "./pages/StatusPage"
+import Jobs from "./pages/dashboard/Jobs"
 
 function DashboardLayout({ session }) {
+  const [activeTab, setActiveTab] = useState("requests")
+
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Top Nav */}
@@ -23,10 +26,35 @@ function DashboardLayout({ session }) {
         </div>
       </nav>
 
+      {/* Tabs */}
+      <div className="border-b border-gray-700 px-6">
+        <div className="flex gap-6">
+          <button
+            onClick={() => setActiveTab("requests")}
+            className={`py-3 text-sm font-medium border-b-2 transition-colors ${
+              activeTab === "requests"
+                ? "border-amber-500 text-amber-400"
+                : "border-transparent text-gray-500 hover:text-gray-300"
+            }`}
+          >
+            Pending Requests
+          </button>
+          <button
+            onClick={() => setActiveTab("jobs")}
+            className={`py-3 text-sm font-medium border-b-2 transition-colors ${
+              activeTab === "jobs"
+                ? "border-amber-500 text-amber-400"
+                : "border-transparent text-gray-500 hover:text-gray-300"
+            }`}
+          >
+            Active Jobs
+          </button>
+        </div>
+      </div>
+
       {/* Content */}
       <main className="max-w-3xl mx-auto px-4 py-8">
-        <h2 className="text-2xl font-bold mb-6">Pending Requests</h2>
-        <Requests />
+        {activeTab === "requests" ? <Requests /> : <Jobs />}
       </main>
     </div>
   )
