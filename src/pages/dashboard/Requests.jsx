@@ -63,7 +63,7 @@ export default function Requests() {
           customerEmail: booking.customer_email,
           customerName: booking.customer_name,
           serviceName: booking.services?.name,
-          shopName: "Mikes Glove Shop",
+          shopName: "Mikes Glove Shop",  // hardcoded for single-shop demo 
         }),
       }
     )
