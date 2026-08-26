@@ -30,8 +30,6 @@ export default function BookingPage() {
         .eq("slug", slug)
         .single()
 
-        console.log("Shop data:", shopData)
-        console.log("Shop error:", shopError)
 
       if (shopError || !shopData) {
         setError("Shop not found.")
