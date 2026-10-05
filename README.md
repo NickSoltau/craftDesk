@@ -62,3 +62,24 @@ npm run dev
 
 Requires a Supabase project with matching schema and environment variables
 (see `.env.example`) plus a Stripe account for payment link generation.
+
+## Security
+
+CraftDesk uses Supabase with Row Level Security (RLS) enabled on every table. The public anon key ships with the frontend by design, so RLS policies are what decide who can read or write data.
+
+**How access works**
+
+- **Shop owners** can manage their own shop, services, bookings, and booking photos.
+- **Anonymous visitors** can read active services and shops (needed for the public booking page) and can submit a booking. They cannot read bookings.
+- **Booking submissions** are validated in the database: the shop must exist, the service must belong to that shop and be active, and visitors cannot pre-fill Stripe payment fields.
+- **Photo uploads** are only accepted for a booking submitted within the last hour, using a small helper function kept in a private schema.
+
+**What I found and fixed**
+
+During a pass through Supabase's Security Advisor, I discovered that a policy named "Customers can read their own booking by email" was actually `using (true)`, letting anyone with the public key read every booking. The advisor doesn't flag this pattern, so I found it by reading the policy definitions. I removed it, tightened both public insert policies, and re-tested the booking, owner approval, payment link, and job tracking flows.
+
+**Known remaining advisor warning**
+
+- *Leaked Password Protection Disabled*: this check requires Supabase's Pro plan, and this project runs on the free tier. It would matter for a production deployment with password sign-ups.
+
+This is a portfolio project, not a hardened production system. If it were taken to production, I would add rate limiting on public inserts, CAPTCHA on the booking form, and automated tests for the RLS policies.
