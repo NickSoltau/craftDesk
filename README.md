@@ -1,4 +1,4 @@
-# craftDesk
+# CraftDesk
 
 A booking and job-management app for small service businesses (e.g. repair
 shops, contractors) — customers submit booking requests, owners approve
