@@ -53,15 +53,17 @@ complete a payment without real charges:
 
 ## Running locally
 
-\`\`\`bash
+```bash
 git clone https://github.com/NickSoltau/craftDesk.git
 cd craftDesk
 npm install
 npm run dev
-\`\`\`
+```
 
-Requires a Supabase project with matching schema and environment variables
-(see `.env.example`) plus a Stripe account for payment link generation.
+Requires a Supabase project with the matching schema. Put `VITE_SUPABASE_URL` and
+`VITE_SUPABASE_ANON_KEY` in a `.env` file. The Stripe and Resend keys
+(`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`, and `SITE_URL`) are
+set as Supabase Edge Function secrets, and you need a Stripe account for payment links.
 
 ## Security
 
