@@ -79,10 +79,16 @@ export default function BookingPage() {
       return
     }
 
+    // Make the booking ID here in the browser. Anonymous visitors are not
+    // allowed to read the bookings table (security fix), so we cannot ask
+    // Supabase to hand the saved row back. We already know the ID instead.
+    const bookingId = crypto.randomUUID()
+
     // Insert booking row
-    const { data: booking, error: bookingError } = await supabase
+    const { error: bookingError } = await supabase
       .from("bookings")
       .insert({
+        id: bookingId,
         shop_id: shop.id,
         service_id: form.service_id,
         customer_name: form.customer_name,
@@ -92,8 +98,6 @@ export default function BookingPage() {
         deposit_amount: selectedService.deposit_amount,
         status: "pending",
       })
-      .select()
-      .single()
 
     if (bookingError) {
       setError("Something went wrong submitting your booking. Please try again.")
@@ -104,7 +108,7 @@ export default function BookingPage() {
     // Upload photos if any
     if (photos.length > 0) {
       for (const photo of photos) {
-        const fileName = `${booking.id}/${Date.now()}-${photo.name}`
+        const fileName = `${bookingId}/${Date.now()}-${photo.name}`
 
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from("booking-photos")
@@ -116,7 +120,7 @@ export default function BookingPage() {
             .getPublicUrl(fileName)
 
           await supabase.from("booking_photos").insert({
-            booking_id: booking.id,
+            booking_id: bookingId,
             storage_url: urlData.publicUrl,
           })
         }
