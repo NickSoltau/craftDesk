@@ -30,11 +30,11 @@ export default function StatusPage() {
 
   useEffect(() => {
     async function fetchBooking() {
-      const { data, error } = await supabase
-        .from("bookings")
-        .select(`*, services (name, estimated_days)`)
-        .eq("id", bookingId)
-        .single()
+      // Anonymous visitors cannot read the bookings table directly, so we ask
+      // a small database function for this one booking by its ID.
+      const { data, error } = await supabase.rpc("get_booking_status", {
+        p_booking_id: bookingId,
+      })
 
       if (error || !data) {
         setError("Booking not found.")
