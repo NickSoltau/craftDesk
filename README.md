@@ -1,5 +1,7 @@
 # CraftDesk
 
+**Live demo:** https://craft-desk-rho.vercel.app (Stripe in test mode, walkthrough below)
+
 A booking and job-management app for small service businesses (e.g. repair
 shops, contractors) — customers submit booking requests, owners approve
 them and generate payment links, and jobs move through status stages from
