@@ -55,7 +55,7 @@ export default function BookingPage() {
     }
 
     fetchShopData()
-  }, [])
+  }, [slug])
 
   
 
